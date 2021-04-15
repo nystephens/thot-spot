@@ -3,14 +3,16 @@ const dateFormat = require('../utils/dateFormat');
 
 const ThoughtSchema = new Schema(
   {
-    ThoughtName: {
+    thoughtText: {
       type: String,
-      required: true,
-      trim: true
+      required: "📝 ThOt teXt REquIred!",
+      trim: true,
+      minlength: 1,
+      maxlength: 280
     },
-    createdBy: {
+    username: {
       type: String,
-      required: true,
+      required: "👤 USErnaMe REquIred!",
       trim: true
     },
     createdAt: {
@@ -18,34 +20,21 @@ const ThoughtSchema = new Schema(
       default: Date.now,
       get: createdAtVal => dateFormat(createdAtVal)
     },
-    size: {
-      type: String,
-      required: true,
-      enum: ['Personal', 'Small', 'Medium', 'Large', 'Extra Large'],
-      default: 'Large'
-    },
-    toppings: [],
-    comments: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Comment'
-      }
-    ]
+    reactions: [ReactionSchema]
   },
   {
     toJSON: {
-      virtuals: true,
-      getters: true
+      virtuals: true
     },
     // prevents virtuals from creating duplicate of _id as `id`
     id: false
   }
 );
 
-// get total count of comments and replies on retrieval
-ThoughtSchema.virtual('commentCount').get(function() {
-  return this.comments.reduce(
-    (total, comment) => total + comment.replies.length + 1,
+// get total count of reactions on retrieval
+ThoughtSchema.virtual('reactionCount').get(function() {
+  return this.reactions.reduce(
+    (total, reaction) => total + reaction.length + 1,
     0
   );
 });

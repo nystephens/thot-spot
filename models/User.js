@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-// const dateFormat = require('../utils/dateFormat');
+const dateFormat = require('../utils/dateFormat');
 
 const UserSchema = new Schema(
     {
@@ -22,6 +22,11 @@ const UserSchema = new Schema(
                 ref: 'Thought'
             }
         ],
+        createdAt: {
+            type: Date,
+            default: Date.now,
+            get: createdAtVal => dateFormat(createdAtVal)
+        },
         friends: [
             // an array of values referencing the User model (self reference)
             {
@@ -32,11 +37,11 @@ const UserSchema = new Schema(
     },
     {
         toJSON: {
-          virtuals: true
+            virtuals: true
         },
         // prevents virtuals from creating duplicate of _id as `id`
         id: false
-      }
+    }
 )
 
 const User = model('User', UserSchema);

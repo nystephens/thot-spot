@@ -5,7 +5,7 @@ const ThoughtSchema = new Schema(
   {
     thoughtText: {
       type: String,
-      required: "📝 ThOt teXt REquIred!",
+      required: "📝 ThOugHt teXt REquIred!",
       trim: true,
       minlength: 1,
       maxlength: 280

@@ -1,76 +1,49 @@
-const { Comment, Pizza } = require('../models');
+const { Reaction, Thought } = require('../models');
 
-const commentController = {
-  // add comment to pizza
-  addComment({ params, body }, res) {
+const ReactionController = {
+  // add Reaction to Thought
+  addReaction({ params, body }, res) {
     console.log(body);
-    Comment.create(body)
+    Reaction.create(body)
       .then(({ _id }) => {
-        return Pizza.findOneAndUpdate(
-          { _id: params.pizzaId },
-          { $push: { comments: _id } },
+        return Thought.findOneAndUpdate(
+          { _id: params.thoughtId },
+          { $push: { Reactions: _id } },
           { new: true, runValidators: true }
         );
       })
-      .then(dbPizzaData => {
-        if (!dbPizzaData) {
-          res.status(404).json({ message: 'No pizza found with this id!' });
+      .then(dbThoughtData => {
+        if (!dbThoughtData) {
+          res.status(404).json({ message: 'No Thought found with this id!' });
           return;
         }
-        res.json(dbPizzaData);
+        res.json(dbThoughtData);
       })
       .catch(err => res.json(err));
   },
 
-  // add reply to comment
-  addReply({ params, body }, res) {
-    Comment.findOneAndUpdate(
-      { _id: params.commentId },
-      { $push: { replies: body } },
-      { new: true, runValidators: true }
-    )
-      .then(dbPizzaData => {
-        if (!dbPizzaData) {
-          res.status(404).json({ message: 'No pizza found with this id!' });
-          return;
+  // remove Reaction
+  removeReaction({ params }, res) {
+    Reaction.findOneAndDelete({ _id: params.ReactionId })
+      .then(deletedReaction => {
+        if (!deletedReaction) {
+          return res.status(404).json({ message: 'No Reaction with this id!' });
         }
-        res.json(dbPizzaData);
-      })
-      .catch(err => res.json(err));
-  },
-
-  // remove comment
-  removeComment({ params }, res) {
-    Comment.findOneAndDelete({ _id: params.commentId })
-      .then(deletedComment => {
-        if (!deletedComment) {
-          return res.status(404).json({ message: 'No comment with this id!' });
-        }
-        return Pizza.findOneAndUpdate(
-          { _id: params.pizzaId },
-          { $pull: { comments: params.commentId } },
+        return Thought.findOneAndUpdate(
+          { _id: params.ThoughtId },
+          { $pull: { Reactions: params.ReactionId } },
           { new: true }
         );
       })
-      .then(dbPizzaData => {
-        if (!dbPizzaData) {
-          res.status(404).json({ message: 'No pizza found with this id!' });
+      .then(dbThoughtData => {
+        if (!dbThoughtData) {
+          res.status(404).json({ message: 'No Thought found with this id!' });
           return;
         }
-        res.json(dbPizzaData);
+        res.json(dbThoughtData);
       })
-      .catch(err => res.json(err));
-  },
-  // remove reply
-  removeReply({ params }, res) {
-    Comment.findOneAndUpdate(
-      { _id: params.commentId },
-      { $pull: { replies: { replyId: params.replyId } } },
-      { new: true }
-    )
-      .then(dbPizzaData => res.json(dbPizzaData))
       .catch(err => res.json(err));
   }
 };
 
-module.exports = commentController;
+module.exports = ReactionController;

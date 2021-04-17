@@ -3,7 +3,6 @@ const { Thought } = require('../models');
 const ReactionController = {
   // add Reaction to Thought
   addReaction({ params, body }, res) {
-    console.log(body);
     Thought.findOneAndUpdate(
       { _id: params.id },
       { $push: { reactions: body } },
@@ -20,11 +19,10 @@ const ReactionController = {
   },
 
   // remove Reaction
-  removeReaction({ params }, res) {
+  removeReaction( {params}, res) {
     Thought.findOneAndUpdate(
     { _id: params.id },
-    { $pull: { reactions: { reactionId: params.reactionId } } },
-    { new: true }
+    { $pull: { reactions: { reactionId: params.reactionId } } }
   )
     .then(dbThoughtData => res.json(dbThoughtData))
     .catch(err => res.json(err));

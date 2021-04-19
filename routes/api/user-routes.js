@@ -12,9 +12,9 @@ const {
 
 // /api/users
 router
- .route('/')
- .get(getAllUser)
- .post(createUser);
+    .route('/')
+    .get(getAllUser)
+    .post(createUser);
 
 // /api/users/:userId
 router

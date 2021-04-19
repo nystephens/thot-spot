@@ -18,14 +18,32 @@ const ReactionController = {
       .catch(err => res.json(err));
   },
 
-  // remove Reaction
-  removeReaction( {params}, res) {
+  // remove Reaction = err 500 MongooseError: Callback must be a function, got [object Object]
+  // removeReaction( {params}, res) {
+  //   Thought.findOneAndUpdate(
+  //   { _id: params.id },
+  //   { $pull: { reactions: { reactionId: params.reactionId } } },
+  //   { new: true, runValidators: true }
+  // )
+  //   .then(dbThoughtData => res.json(dbThoughtData))
+  //   .catch(err => res.json(err));
+  // }
+
+  // Shellies route to delete a reaction = err no thought found!
+  removeReaction({ params }, res) {
     Thought.findOneAndUpdate(
-    { _id: params.id },
-    { $pull: { reactions: { reactionId: params.reactionId } } }
-  )
-    .then(dbThoughtData => res.json(dbThoughtData))
-    .catch(err => res.json(err));
+      { _id: params.thoughtId },
+      { $pull: { reactions: { reactionId: params.reactionId } } },
+      { new: true }
+    )
+      .then(dbThoughtData => {
+        if (!dbThoughtData) {
+          res.status(404).json({ message: 'No thought found with this ID!' });
+          return;
+        };
+        res.json(dbThoughtData);
+      })
+      .catch(err => res.status(400).json(err));
   }
 };
 

@@ -8,6 +8,10 @@ const UserController = {
         path: 'friends',
         select: '_id'
       })
+      .populate({
+        path: 'thoughts',
+        select: 'thoughtText'
+      })
       .sort({ _id: -1 })
       .then(dbUserData => res.json(dbUserData))
       .catch(err => {

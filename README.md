@@ -40,7 +40,7 @@ To use this API it is recommended to download Insomnia Core.  Additionally, it i
 
 For info on how to run these operations see [Using Insomnia](https://apis.support.brightcove.com/general/use-insomnia-api-requests.html).  When you run these different requests you should see the expected values for each request as defined by the models.
 
-To see this application in action please watch [Walkthrough Video: User Operations](https://drive.google.com/file/d/1IWE3H57X1GuR4jt1wZG44IghfFpWLjaU/view), [Walkthrough Video: Thought Operations](), [Walkthrough Video: Friend Operations](), and [Walkthrough Video: Reaction Operations]().
+To see this application in action please watch [Walkthrough Video: User Operations](https://drive.google.com/file/d/1IWE3H57X1GuR4jt1wZG44IghfFpWLjaU/view), [Walkthrough Video: Friend Operations](https://drive.google.com/file/d/1DGat36pF5wopgPRJke-xFlkkErMJd6hV/view), [Walkthrough Video: Thought Operations](), and [Walkthrough Video: Reaction Operations]().
 
 ## License
 ![MIT license](https://img.shields.io/badge/license-MIT-brightgreen)

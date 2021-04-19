@@ -36,6 +36,9 @@ const ReactionController = {
       { $pull: { reactions: { reactionId: params.reactionId } } },
       { new: true }
     )
+    // put populate and select in to see if it would work.. it did not
+      .populate({ path: 'reactions', select: '-__v' })
+      .select('-__v')
       .then(dbThoughtData => {
         if (!dbThoughtData) {
           res.status(404).json({ message: 'No thought found with this ID!' });

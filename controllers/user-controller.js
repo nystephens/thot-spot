@@ -8,11 +8,6 @@ const UserController = {
         path: 'friends',
         select: '_id'
       })
-      // trying to populate doc with thoughts subdoc
-      // .populate({
-      //   path: 'thoughts',
-      //   select: 'thoughtText'
-      // })
       .select('-__v')
       .sort({ _id: -1 })
       .then(dbUserData => res.json(dbUserData))
@@ -54,19 +49,7 @@ const UserController = {
       .catch(err => res.status(404).json({ message: 'No User found with this id!' }));
   },
 
-  // delete friends deletes entire user
-  // deleteFriend({ params }, res) {
-  //   User.findOneAndRemove(
-  //     { _id: params.userId }, 
-  //     {$pull: { friends: { _id: params.friendId }} }, 
-  //     // {runValidators: true }
-  //     )
-  //     .then(dbUserData => res.json(dbUserData))
-  //     .catch(err => res.status(404).json({ message: 'No User found with this id!' }));
-  // },
-
-  // shellies code: 
-  // Route to delete a friend = returns no user found.
+  // delete a friend
   deleteFriend({ params }, res) {
     User.findOneAndUpdate(
       { _id: params.userId },
@@ -86,7 +69,7 @@ const UserController = {
   },
 
 
-  // createUser
+  // create user
   createUser({ body }, res) {
     User.create(body)
       .then(dbUserData => res.json(dbUserData))

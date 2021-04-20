@@ -8,10 +8,12 @@ const UserController = {
         path: 'friends',
         select: '_id'
       })
-      .populate({
-        path: 'thoughts',
-        select: 'thoughtText'
-      })
+      // trying to populate doc with thoughts subdoc
+      // .populate({
+      //   path: 'thoughts',
+      //   select: 'thoughtText'
+      // })
+      .select('-__v')
       .sort({ _id: -1 })
       .then(dbUserData => res.json(dbUserData))
       .catch(err => {

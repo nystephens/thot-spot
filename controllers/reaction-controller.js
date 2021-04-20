@@ -32,13 +32,13 @@ const ReactionController = {
   // Shellies route to delete a reaction = err no thought found!
   removeReaction({ params }, res) {
     Thought.findOneAndUpdate(
-      { _id: params.thoughtId },
-      { $pull: { reactions: { reactionId: params.reactionId } } },
+      { _id: params.id },
+      { $pull: { reactions: { _id: params.reactionId } } },
       { new: true }
     )
     // put populate and select in to see if it would work.. it did not
-      .populate({ path: 'reactions', select: '-__v' })
-      .select('-__v')
+      // .populate({ path: 'reactions', select: '-__v' })
+      // .select('-__v')
       .then(dbThoughtData => {
         if (!dbThoughtData) {
           res.status(404).json({ message: 'No thought found with this ID!' });
